@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Flask tutorial</title>
+{% endblock %}
+
+{% block body %}
+<body class="bg-gray-100 min-h-screen flex flex-col space-y-10 items-center justify-center">
+    <h1 class="text-2xl">Task Master</h1>
+
+    {% if tasks|length < 1 %}
+    <h4>There are no tasks yet.</h4>
+
+    {% else %}
+    <table class="table-auto mx-auto border border-gray-300">
+        <thead>
+            <tr class="bg-gray-200 text-center">
+                <th class="px-6 py-3 border border-gray-300">Task</th>
+                <th class="px-6 py-3 border border-gray-300">Added</th>
+                <th class="px-6 py-3 border border-gray-300">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for task in tasks %}
+            <tr class="">
+                <td class="px-6 py-3 border border-gray-300">{{ task.content }}</td>
+                <td class="px-6 py-3 border border-gray-300">{{ task.date_created.date() }}</td>
+                <td class="px-6 py-3 border border-gray-300">
+                    <a href="{{ url_for('update', id=task.id) }}">Update</a>
+                    <br />
+                    <a href="{{ url_for('delete', id=task.id) }}">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+
+    <form action="/" method="POST" class="bg-white p-8 rounded-lg shadow-md w-full max-w-md space-y-6">
+        <input type="text" class="mt-1 block w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200" name="content" id="id_content" placeholder="task content" required autofocus>
+        <input type="submit" value="Add task" class="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-700 transition">
+    </form>
+</div>
+
+<div class="flex flex-col">
+    <small><a href="https://youtu.be/Z1RJmh_OqeA?si=PFa6bBeMs_DqWnp_" target="_blank" rel="noopener noreferrer">YouTube tutorial</a></small>
+    <small><a href="https://flowbite.com/docs/getting-started/flask/">install Tailwindcss</a></small>
+</div>
+{% endblock %}
