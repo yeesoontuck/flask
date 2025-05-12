@@ -1,3 +1,5 @@
+# run using conda environment "flasktut"
+
 from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -19,7 +21,8 @@ class Todo(db.Model):
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
-        task_content = request.form['content'] # name of input
+        # task_content = request.form['content'] # name of input
+        task_content = request.form.get('content', '').strip() # name of input, better method
         new_task = Todo(content=task_content)
 
         try:
@@ -49,7 +52,7 @@ def update(id):
     task_to_update = Todo.query.get_or_404(id)
 
     if request.method == 'POST':
-        task_to_update.content = request.form['content']
+        task_to_update.content = request.form.get('content', '').strip()
 
         try:
             db.session.commit()
